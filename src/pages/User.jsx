@@ -3,9 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import UserData from "../components/UserData";
-import { getAPI, postAPI } from "../utils/fetchapi";
-// const API = "https://dummyjson.com/products/1";``
-const API = "http://10.12.1.151:4002/api/v1/master/dept";
+import { postAPI } from "../utils/fetchapi";
 
 const Users = () => {
   const location = useLocation();
@@ -16,8 +14,11 @@ const Users = () => {
 
   const fetchUsers = async () => {
     try {
-      const data = await getAPI(`master/dept`, null);
-      // console.log(data, "helllllllllllllllllllllllllllllllllllll");
+      let payload = {
+        currentUser: "admin",
+      };
+      const data = await postAPI(`auth/allUsers`, payload, null);
+      console.log(data, "helllllllllllllllllllllllllllllllllllll");
       if (data.status) {
         setUsers(data?.data);
       } else {
@@ -54,27 +55,19 @@ const Users = () => {
         <table className="table table-striped table-bordered table-hover">
           <thead>
             <tr>
-              <th scope="col">User ID</th>
-              <th scope="col">Name</th>
+              <th scope="col">Username</th>
+              <th scope="col">Full Name</th>
               <th scope="col">Email</th>
 
               {/* <th scope="col">Role</th> */}
               <th scope="col" style={{ width: "151px" }}>
-                <select
-                  className="role-dropdown"
-                  value={selectedRole}
-                  onChange={(e) => handleRoleChange(e.target.value)}
-                >
-                  <option value="admin">Admin</option>
-                  <option value="staff">Staff</option>
-                </select>
+                Role
               </th>
-              <th scope="col">Created By</th>
               <th scope="col">Created At</th>
             </tr>
           </thead>
           <tbody>
-            <UserData users={users} fetchUsers={fetchUsers} />
+            <UserData users={users} />
           </tbody>
         </table>
       </div>

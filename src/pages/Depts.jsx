@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import UserData from "../components/UserData";
 import { getAPI, postAPI } from "../utils/fetchapi";
+import DeptData from "../components/DeptData";
 // const API = "https://dummyjson.com/products/1";``
 const API = "http://10.12.1.151:4002/api/v1/master/dept";
 
@@ -54,7 +55,7 @@ const Depts = () => {
             </tr>
           </thead>
           <tbody>
-            <UserData users={users} fetchUsers={fetchUsers} />
+            <DeptData users={users} fetchUsers={fetchUsers} />
           </tbody>
         </table>
       </div>

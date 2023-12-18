@@ -3,18 +3,24 @@ import React, { useState } from "react";
 // import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
+import { postAPI } from "../utils/fetchapi";
+import { toast } from "react-toastify";
 
 const AddDept = () => {
   const [user, setUser] = useState({
-    user_name: "",
+    name: "",
+    username: "",
     email: "",
     password: "",
     role: "staff",
+    currentUser: "admin",
   });
   const navigate = useNavigate();
   const handleClose = () => {
     navigate("/user");
   };
+
+  console.log(user);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -25,10 +31,29 @@ const AddDept = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Data:", user);
-    navigate("/user", { state: user });
+    try {
+      let res = await postAPI("auth/addUser", user, null);
+      console.log(res);
+      if (res.status) {
+        toast.success(res.message);
+        setUser({
+          name: "",
+          username: "",
+          email: "",
+          password: "",
+          role: "staff",
+          currentUser: "admin",
+        });
+        navigate("/user");
+      } else {
+        toast.error("Add user failed");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("An error occurred. Please try again later.");
+    }
   };
 
   return (
@@ -44,12 +69,23 @@ const AddDept = () => {
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="dept_name" className="form-label">
-                Name
+                Full Name
               </label>
               <input
                 type="text"
                 className="form-control"
-                name="user_name"
+                name="name"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="dept_name" className="form-label">
+                Username
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                name="username"
                 onChange={handleInputChange}
               />
             </div>
