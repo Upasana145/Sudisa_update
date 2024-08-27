@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { LiaAngleDownSolid, LiaAngleLeftSolid } from "react-icons/lia";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutHandler } from "../redux/slices/authSlice";
 import { initialProjectTypeHandler } from "../redux/slices/projectSlice";
 
 const Sidebar = () => {
+  const { role } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // Updated to use useNavigate
 
   const [masterDropdownVisible, setMasterDropdownVisible] = useState(false);
   const [settingsDropdownVisible, setSettingsDropdownVisible] = useState(false);
@@ -21,6 +24,7 @@ const Sidebar = () => {
   const logout = () => {
     dispatch(logoutHandler());
     dispatch(initialProjectTypeHandler());
+    navigate("/"); // Updated to use navigate
   };
 
   return (
@@ -74,9 +78,11 @@ const Sidebar = () => {
                 </ul>
               )}
             </li> */}
-            <li>
-              <Link to={"/user"}>User</Link>
-            </li>
+            {role === "admin" && (
+              <li>
+                <Link to={"/user"}>User</Link>
+              </li>
+            )}
             <li>
               <button onClick={logout}>Logout</button>
             </li>

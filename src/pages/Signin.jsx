@@ -30,7 +30,7 @@ function Signin() {
     let data = await postAPI("auth/login", payload, null);
     if (data.status) {
       toast.success(data?.message);
-      dispatch(loginHandler(data?.token));
+      dispatch(loginHandler(data));
       setIsNavigating(false);
     } else {
       toast.error(data?.message);

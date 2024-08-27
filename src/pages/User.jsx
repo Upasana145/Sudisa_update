@@ -4,9 +4,11 @@ import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import UserData from "../components/UserData";
 import { postAPI } from "../utils/fetchapi";
+import { useSelector } from "react-redux";
 
 const Users = () => {
   const location = useLocation();
+  const { username } = useSelector((state) => state.auth);
   console.log("Hey i am location...", location?.state);
 
   const [users, setUsers] = useState([]);
@@ -15,10 +17,9 @@ const Users = () => {
   const fetchUsers = async () => {
     try {
       let payload = {
-        currentUser: "admin",
+        currentUser: username,
       };
       const data = await postAPI(`auth/allUsers`, payload, null);
-      console.log(data, "helllllllllllllllllllllllllllllllllllll");
       if (data.status) {
         setUsers(data?.data);
       } else {
@@ -64,10 +65,13 @@ const Users = () => {
                 Role
               </th>
               <th scope="col">Created At</th>
+              <th scope="col" colSpan={2}>
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
-            <UserData users={users} />
+            <UserData users={users} fetchUsers={fetchUsers} />
           </tbody>
         </table>
       </div>

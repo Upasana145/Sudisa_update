@@ -177,7 +177,7 @@ const EditDept = () => {
   };
 
   useEffect(() => {
-    if (state) {
+    if (state?.emails) {
       let emails = state?.emails.split(",");
       setDepartment({ ...state, emails: emails });
     }

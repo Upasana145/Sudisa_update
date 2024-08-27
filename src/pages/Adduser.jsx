@@ -5,22 +5,24 @@ import { useNavigate } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
 import { postAPI } from "../utils/fetchapi";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const AddDept = () => {
+  const { username } = useSelector((state) => state.auth);
+  console.log(username);
+
   const [user, setUser] = useState({
     name: "",
     username: "",
     email: "",
     password: "",
     role: "staff",
-    currentUser: "admin",
+    currentUser: username,
   });
   const navigate = useNavigate();
   const handleClose = () => {
     navigate("/user");
   };
-
-  console.log(user);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -33,6 +35,7 @@ const AddDept = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(user);
     try {
       let res = await postAPI("auth/addUser", user, null);
       console.log(res);
@@ -44,11 +47,11 @@ const AddDept = () => {
           email: "",
           password: "",
           role: "staff",
-          currentUser: "admin",
+          currentUser: username,
         });
         navigate("/user");
       } else {
-        toast.error("Add user failed");
+        toast.error(res?.message);
       }
     } catch (error) {
       console.error("Error:", error);

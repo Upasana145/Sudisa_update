@@ -23,9 +23,7 @@ const Layout = () => {
   console.log(projectType);
 
   const handleOptionSelect = (selectedOption) => {
-    console.log(selectedOption, "uuuuuuuuuuuuuuuuuuuuuuuu");
-
-    // setSelectedOption(selectedOption); // Update the selected option in state
+    // setSelectedOption(selectedOption);
     dispatch(projectTypeHandler(selectedOption));
   };
 

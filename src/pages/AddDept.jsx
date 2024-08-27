@@ -72,7 +72,7 @@ const AddDept = () => {
     head_name: "",
     emails: [""],
   });
-  const [tableData, setTableData] = useState([]);
+ 
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {

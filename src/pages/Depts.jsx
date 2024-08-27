@@ -49,7 +49,7 @@ const Depts = () => {
               <th scope="col">Department Name</th>
               <th scope="col">Emails</th>
               <th scope="col">Head Name</th>
-              <th scope="col" colSpan={2}>
+              <th scope="col" colSpan={2} style={{ textAlign: "center" }}>
                 Action
               </th>
             </tr>
